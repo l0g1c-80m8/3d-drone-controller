@@ -70,7 +70,7 @@ For those of you interested in doing manual builds using `cmake`, we have provid
 1. Create a new directory for the build files:
 
 ```sh
-cd FCND-Controls-CPP
+cd 3d-drone-controller
 mkdir build
 ```
 

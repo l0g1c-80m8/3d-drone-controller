@@ -74,8 +74,6 @@ VehicleCommand QuadControl::GenerateMotorCommands(float collThrustCmd, V3F momen
   cmd.desiredThrustsN[2] = (thrustX - thrustY - thrustZ + collThrustCmd) / 4.f; // rear left
   cmd.desiredThrustsN[3] = (- thrustX - thrustY + thrustZ + collThrustCmd) / 4.f; // rear right
 
-  /////////////////////////////// END STUDENT CODE ////////////////////////////
-
   return cmd;
 }
 
@@ -159,11 +157,17 @@ float QuadControl::AltitudeControl(float posZCmd, float velZCmd, float posZ, flo
   Mat3x3F R = attitude.RotationMatrix_IwrtB();
   float thrust = 0;
 
-  ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
+  velZCmd = CONSTRAIN(velZCmd, -maxAscentRate, maxAscentRate);
+  float p_err = posZCmd - posZ;
+  integratedAltitudeError += p_err * dt;
+  float d_err = velZCmd - velZ;
 
+  float p_term = kpPosZ * p_err;
+  float i_term = KiPosZ * integratedAltitudeError;
+  float d_term = kpVelZ * d_err;
 
-
-  /////////////////////////////// END STUDENT CODE ////////////////////////////
+  float accel_cmd = accelZCmd + p_term + i_term + d_term - CONST_GRAVITY;
+  thrust = - mass * CONSTRAIN(accel_cmd / R(2, 2), -maxAscentRate / dt, maxAscentRate / dt);
   
   return thrust;
 }
@@ -197,11 +201,10 @@ V3F QuadControl::LateralPositionControl(V3F posCmd, V3F velCmd, V3F pos, V3F vel
   // to this variable
   V3F accelCmd = accelCmdFF;
 
-  ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
-
-  
-
-  /////////////////////////////// END STUDENT CODE ////////////////////////////
+  velCmd.x = CONSTRAIN(velCmd.x, -maxSpeedXY, maxSpeedXY);
+  velCmd.y = CONSTRAIN(velCmd.y, -maxSpeedXY, maxSpeedXY);
+  accelCmd.x = CONSTRAIN(accelCmd.x + kpPosXY * (posCmd.x - pos.x) + kpVelXY * (velCmd.x - vel.x), -maxAccelXY, maxAccelXY);
+  accelCmd.y = CONSTRAIN(accelCmd.y + kpPosXY * (posCmd.y - pos.y) + kpVelXY * (velCmd.y - vel.y), -maxAccelXY, maxAccelXY);
 
   return accelCmd;
 }
@@ -220,10 +223,9 @@ float QuadControl::YawControl(float yawCmd, float yaw)
   //  - use the yaw control gain parameter kpYaw
 
   float yawRateCmd=0;
-  ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
-
-
-  /////////////////////////////// END STUDENT CODE ////////////////////////////
+  
+  float yawErr = fmodf(yawCmd - yaw, 2 * F_PI);
+  yawRateCmd = kpYaw * yawErr;
 
   return yawRateCmd;
 

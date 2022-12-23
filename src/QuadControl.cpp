@@ -64,16 +64,15 @@ VehicleCommand QuadControl::GenerateMotorCommands(float collThrustCmd, V3F momen
   //   set class member variable cmd (class variable for graphing) where
   //   cmd.desiredThrustsN[0..3]: motor commands, in [N]
 
-  // HINTS: 
-  // - you can access parts of momentCmd via e.g. momentCmd.x
-  // You'll need the arm length parameter L, and the drag/thrust ratio kappa
+  float length = L / sqrt(2.0f); // perpendicular distance from center of frame to center of the rotor
+  float thrustX = momentCmd.x / length; // control roll
+  float thrustY = momentCmd.y / length; // control pitch
+  float thrustZ = - momentCmd.z / kappa; // control yaw (-ve is upwards)
 
-  ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
-
-  cmd.desiredThrustsN[0] = mass * 9.81f / 4.f; // front left
-  cmd.desiredThrustsN[1] = mass * 9.81f / 4.f; // front right
-  cmd.desiredThrustsN[2] = mass * 9.81f / 4.f; // rear left
-  cmd.desiredThrustsN[3] = mass * 9.81f / 4.f; // rear right
+  cmd.desiredThrustsN[0] = (thrustX + thrustY + thrustZ + collThrustCmd) / 4.f; // front left
+  cmd.desiredThrustsN[1] = (- thrustX + thrustY - thrustZ + collThrustCmd) / 4.f; // front right
+  cmd.desiredThrustsN[2] = (thrustX - thrustY - thrustZ + collThrustCmd) / 4.f; // rear left
+  cmd.desiredThrustsN[3] = (- thrustX - thrustY + thrustZ + collThrustCmd) / 4.f; // rear right
 
   /////////////////////////////// END STUDENT CODE ////////////////////////////
 
@@ -89,18 +88,12 @@ V3F QuadControl::BodyRateControl(V3F pqrCmd, V3F pqr)
   // OUTPUT:
   //   return a V3F containing the desired moments for each of the 3 axes
 
-  // HINTS: 
-  //  - you can use V3Fs just like scalars: V3F a(1,1,1), b(2,3,4), c; c=a-b;
-  //  - you'll need parameters for moments of inertia Ixx, Iyy, Izz
-  //  - you'll also need the gain parameter kpPQR (it's a V3F)
-
   V3F momentCmd;
+  V3F rate_error = pqrCmd - pqr;
+  momentCmd = kpPQR * rate_error * V3F(Ixx, Iyy, Izz);
 
-  ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
-
-  
-
-  /////////////////////////////// END STUDENT CODE ////////////////////////////
+//  if (momentCmd.mag() > maxMotorThrust)
+//      momentCmd = momentCmd * (maxMotorThrust / momentCmd.mag());
 
   return momentCmd;
 }
@@ -119,19 +112,26 @@ V3F QuadControl::RollPitchControl(V3F accelCmd, Quaternion<float> attitude, floa
   //   return a V3F containing the desired pitch and roll rates. The Z
   //     element of the V3F should be left at its default value (0)
 
-  // HINTS: 
-  //  - we already provide rotation matrix R: to get element R[1,2] (python) use R(1,2) (C++)
-  //  - you'll need the roll/pitch gain kpBank
-  //  - collThrustCmd is a force in Newtons! You'll likely want to convert it to acceleration first
-
   V3F pqrCmd;
   Mat3x3F R = attitude.RotationMatrix_IwrtB();
-
-  ////////////////////////////// BEGIN STUDENT CODE ///////////////////////////
-
-
-
-  /////////////////////////////// END STUDENT CODE ////////////////////////////
+  
+  if (collThrustCmd > 0.0f) {
+    float c_d = - collThrustCmd / mass;
+    float b_x_c = CONSTRAIN(accelCmd.x / c_d, -maxTiltAngle, maxTiltAngle);
+    float b_y_c = CONSTRAIN(accelCmd.y / c_d, -maxTiltAngle, maxTiltAngle);
+    float b_x_err = b_x_c - R(0, 2);
+    float b_y_err = b_y_c - R(1, 2);
+    float b_x_p_term = kpBank * b_x_err;
+    float b_y_p_term = kpBank * b_y_err;
+    
+    pqrCmd.x = (R(1, 0) * b_x_p_term - R(0, 0) * b_y_p_term) / R(2, 2);
+    pqrCmd.y = (R(1, 1) * b_x_p_term - R(0, 1) * b_y_p_term) / R(2, 2);
+    pqrCmd.z = 0.f;
+  } else {
+    pqrCmd.x = 0.f;
+    pqrCmd.y = 0.f;
+    pqrCmd.z = 0.f;
+  }
 
   return pqrCmd;
 }

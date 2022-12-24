@@ -147,13 +147,6 @@ float QuadControl::AltitudeControl(float posZCmd, float velZCmd, float posZ, flo
   // OUTPUT:
   //   return a collective thrust command in [N]
 
-  // HINTS: 
-  //  - we already provide rotation matrix R: to get element R[1,2] (python) use R(1,2) (C++)
-  //  - you'll need the gain parameters kpPosZ and kpVelZ
-  //  - maxAscentRate and maxDescentRate are maximum vertical speeds. Note they're both >=0!
-  //  - make sure to return a force, not an acceleration
-  //  - remember that for an upright quad in NED, thrust should be HIGHER if the desired Z acceleration is LOWER
-
   Mat3x3F R = attitude.RotationMatrix_IwrtB();
   float thrust = 0;
 
@@ -186,10 +179,6 @@ V3F QuadControl::LateralPositionControl(V3F posCmd, V3F velCmd, V3F pos, V3F vel
   // OUTPUT:
   //   return a V3F with desired horizontal accelerations. 
   //     the Z component should be 0
-  // HINTS: 
-  //  - use the gain parameters kpPosXY and kpVelXY
-  //  - make sure you limit the maximum horizontal velocity and acceleration
-  //    to maxSpeedXY and maxAccelXY
 
   // make sure we don't have any incoming z-component
   accelCmdFF.z = 0;
@@ -218,9 +207,6 @@ float QuadControl::YawControl(float yawCmd, float yaw)
   //   yaw: current yaw [rad]
   // OUTPUT:
   //   return a desired yaw rate [rad/s]
-  // HINTS: 
-  //  - use fmodf(foo,b) to unwrap a radian angle measure float foo to range [0,b]. 
-  //  - use the yaw control gain parameter kpYaw
 
   float yawRateCmd=0;
   

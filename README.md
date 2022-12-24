@@ -128,9 +128,10 @@ There are a handful of keyboard / mouse commands to help with the simulator itse
  - Space - pause simulation
 
 
+## The Tasks ##
 
 
-### Testing it Out ###
+### Scenario 1:
 
 When you run the simulator, you'll notice your quad is falling straight down.  This is due to the fact that the thrusts are simply being set to:
 
@@ -148,8 +149,6 @@ With the proper mass, your simulation should look a little like this:
 <img src="animations/scenario1.gif" width="500"/>
 </p>
 
-
-## The Tasks ##
 
 For this project, you will be building a controller in C++.  You will be implementing and tuning this controller in several steps.
 

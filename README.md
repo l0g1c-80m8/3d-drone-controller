@@ -253,7 +253,7 @@ The specific performance metrics are as follows:
 
 ### References ###
 * [Drone controller implementation in python](https://github.com/udacity/FCND-Controls/blob/solution/controller.py) is a helpful reference implementation.
-* [Euler's Rotation Equation](https://en.wikipedia.org/wiki/Euler%27s_equations_(rigid_body_dynamics%29).
+* Euler's Rotation Equation: https://en.wikipedia.org/wiki/Euler%27s_equations_(rigid_body_dynamics%29.
 * [Representing Attitude: Euler Angles, Unit Quaternions, and Rotation Vectors](https://www.astro.rug.nl/software/kapteyn-beta/_downloads/attitude.pdf) is a very thorough exploration of attitude representations. Equation 79 in that paper corresponds to the equation shown in the video above.
 * [Feasibility of Motion Primitives for Choreography](http://flyingmachinearena.org/wp-content/publications/2011/schoellig_feasibility_of_motion_primitives.pdf) is a good summary for understanding quadrotor dynamics.
 * [Feed-Forward Parameter Identification](http://www.dynsyslab.org/wp-content/papercite-data/pdf/schoellig-acc12.pdf) contains the equations for the controllers.

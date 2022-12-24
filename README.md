@@ -90,9 +90,9 @@ Now that you have all the code on your computer and the simulator running, let's
 
 ### The Code ###
 
-For the project, the majority of your code will be written in `src/QuadControl.cpp`.  This file contains all of the code for the controller that you will be developing.
+For the project, the majority of your code is written in `src/QuadControl.cpp`.  This file contains all of the code for the controller.
 
-All the configuration files for your controller and the vehicle are in the `config` directory.  For example, for all your control gains and other desired tuning parameters, there is a config file called `QuadControlParams.txt` set up for you.  An import note is that while the simulator is running, you can edit this file in real time and see the affects your changes have on the quad!
+All the configuration files for your controller and the vehicle are in the `config` directory.  For example, for all your control gains and other desired tuning parameters, there is a config file called `QuadControlParams.txt`.  An import note is that while the simulator is running, you can edit this file in real time and see the effects the changes have on the quad!
 
 The syntax of the config files is as follows:
 
@@ -100,14 +100,14 @@ The syntax of the config files is as follows:
  - If not in a namespace, you can also write `Quad.<variablename>` directly.
  - `[Quad1 : Quad]` means that the `Quad1` namespace is created with a copy of all the variables of `Quad`.  You can then overwrite those variables by specifying new values (e.g. `Quad1.Mass` to override the copied `Quad.Mass`).  This is convenient for having default values.
 
-You will also be using the simulator to fly some difference trajectories to test out the performance of your C++ implementation of your controller. These trajectories, along with supporting code, are found in the `traj` directory of the repo.
+The simulator is used to fly some difference trajectories to test out the performance of the C++ implementation of the controller. These trajectories, along with supporting code, are found in the `traj` directory of the repo.
 
 
 ### The Simulator ###
 
-In the simulator window itself, you can right click the window to select between a set of different scenarios that are designed to test the different parts of your controller.
+In the simulator window itself, you can right click the window to select between a set of different scenarios that are designed to test the different parts of the controller.
 
-The simulation (including visualization) is implemented in a single thread.  This is so that you can safely breakpoint code at any point and debug, without affecting any part of the simulation.
+The simulation (including visualization) is implemented on a single thread.  This is to allow setting breakpoints in the code at any point safetly and debug, without affecting any part of the simulation.
 
 Due to deterministic timing and careful control over how the pseudo-random number generators are initialized and used, the simulation should be exactly repeatable. This means that any simulation with the same configuration should be exactly identical when run repeatedly or on different machines.
 

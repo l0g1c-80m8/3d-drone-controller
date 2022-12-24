@@ -4,7 +4,7 @@ For easy navigation throughout this document, here is an outline:
 
  - [Development environment setup](#development-environment-setup)
  - [Simulator walkthrough](#simulator-walkthrough)
- - [The tasks](#the-tasks)
+ - [Solution Writeup](#solution-writeup)
  - [Evaluation](#evaluation)
 
 
@@ -128,22 +128,17 @@ There are a handful of keyboard / mouse commands to help with the simulator itse
  - Space - pause simulation
 
 
-## The Tasks ##
+## Solution Writeup ##
 
 
 ### Scenario 1:
 
-When you run the simulator, you'll notice your quad is falling straight down.  This is due to the fact that the thrusts are simply being set to:
-
+Tune the weight parameter of the quadrotor and set it s below
 ```
-QuadControlParams.Mass * 9.81 / 4
+Mass = 0.485
 ```
 
-Therefore, if the mass doesn't match the actual mass of the quad, it'll fall down.  Take a moment to tune the `Mass` parameter in `QuadControlParams.txt` to make the vehicle more or less stay in the same spot.
-
-Note: if you want to come back to this later, this scenario is "1_Intro".
-
-With the proper mass, your simulation should look a little like this:
+With the proper mass, the simulation looks like this:
 
 <p align="center">
 <img src="animations/scenario1.gif" width="500"/>

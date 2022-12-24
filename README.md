@@ -1,4 +1,4 @@
-# Readme #
+# README - 3D Drone Controller #
 
 For easy navigation throughout this document, here is an outline:
 

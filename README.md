@@ -134,7 +134,7 @@ There are a handful of keyboard / mouse commands to help with the simulator itse
 
 ### Hover (scenario 1) ###
 
-Tune the weight parameter of the quadrotor and set it s below
+Tune the weight parameter of the quadrotor and set it as below
 ```
 Mass = 0.485
 ```

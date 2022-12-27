@@ -4,7 +4,7 @@ For easy navigation throughout this document, here is an outline:
 
  - [Development environment setup](#development-environment-setup)
  - [Simulator walkthrough](#simulator-walkthrough)
- - [Solution Writeup](#solution-writeup)
+ - [Implementation Details](#implementation-details)
  - [Evaluation](#evaluation)
  - [References](#references)
 
@@ -129,7 +129,7 @@ There are a handful of keyboard / mouse commands to help with the simulator itse
  - Space - pause simulation
 
 
-## Solution Writeup ##
+## Implementation Details ##
 
 
 ### Hover (scenario 1) ###

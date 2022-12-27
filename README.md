@@ -4,7 +4,7 @@ For easy navigation throughout this document, here is an outline:
 
  - [Development environment setup](#development-environment-setup)
  - [Simulator walkthrough](#simulator-walkthrough)
- - [Implementation Details](#implementation-details)
+ - [Implementation details](#implementation-details)
  - [Evaluation](#evaluation)
  - [References](#references)
 
